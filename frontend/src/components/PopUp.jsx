@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 
-const PopUp = ({ title, body, btnText, btnFunc , bodyCls }) => {
+const PopUp = ({ title, body, btnText, btnFunc, bodyCls, secBtnText, secBtnFunc }) => {
   return (
     <AnimatePresence>
       <motion.div
@@ -53,6 +53,7 @@ const PopUp = ({ title, body, btnText, btnFunc , bodyCls }) => {
             }}
           >
             <button onClick={() => btnFunc()}>{btnText}</button>;
+            {secBtnText && secBtnFunc && <button onClick={() => secBtnFunc()}>{secBtnText}</button>}
           </motion.div>
         </motion.div>
       </motion.div>
