@@ -9,9 +9,10 @@ function App() {
     <div className="tic-tac-toe">
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="login" element={<Login />} />
+          <Route index path="login" element={<Login />} />
           <Route path="lobby" element={<Lobby />} />
           <Route path="game" element={<Game />} />
+          <Route path="*" element={<Layout />} />
         </Route>
       </Routes>
     </div>
