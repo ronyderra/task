@@ -60,7 +60,7 @@ function Game() {
 
   return (
     <div className="tic-tac-toe">
-      <h1> TIC-TAC-TOE </h1>
+     
       <Button resetGame={resetGame} />
       <div className="game">
         {Array.from("012345678").map(ind => (
