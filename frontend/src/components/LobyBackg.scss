@@ -1,0 +1,35 @@
+.lobby {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  background-color: #333;
+  border: 2px solid #eee;
+
+  .title {
+    margin: 0 20px;
+    color: white;
+    font-size: 2rem;
+  }
+
+  .names {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &.left {
+      margin-right: 40px;
+    }
+
+    &.right {
+      margin-left: 40px;
+    }
+
+    .name {
+      color: white;
+      margin: 10px 0;
+      font-size: 1.5rem;
+    }
+  }
+}
