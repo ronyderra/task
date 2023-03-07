@@ -1,5 +1,7 @@
-import { Routes, Route, Outlet, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Game from "./pages/game";
+import Lobby from "./pages/lobby";
+import Login from "./pages/login";
 import Layout from "./Layout";
 
 function App() {
@@ -7,8 +9,8 @@ function App() {
     <div className="tic-tac-toe">
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="game" element={<Game />} />
-          <Route path="game" element={<Game />} />
+          <Route path="login" element={<Login />} />
+          <Route path="lobby" element={<Lobby />} />
           <Route path="game" element={<Game />} />
         </Route>
       </Routes>
