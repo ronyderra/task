@@ -5,6 +5,7 @@ import LoginForm from "../components/LoginForm";
 
 function Login() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [registerd, setRegisterd] = useState(false);
   const navigate = useNavigate();
 
   const handleLogIn = () => {
@@ -20,6 +21,8 @@ function Login() {
           body={<LoginForm />}
           btnText={"Login"}
           btnFunc={() => handleLogIn()}
+          secBtnText={"Register"}
+          secBtnFunc={() => handleLogIn()}
         />
       )}
       <Outlet />
