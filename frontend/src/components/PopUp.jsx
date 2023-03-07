@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 
-const PopUp = ({ title, body, btnText, btnFunc }) => {
+const PopUp = ({ title, body, btnText, btnFunc , bodyCls }) => {
   return (
     <AnimatePresence>
       <motion.div
@@ -40,7 +40,7 @@ const PopUp = ({ title, body, btnText, btnFunc }) => {
                 duration: 0.2,
               },
             }}
-            className="win"
+            className={bodyCls}
           >
             {body}
           </motion.div>

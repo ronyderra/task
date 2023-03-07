@@ -86,6 +86,7 @@ function Game() {
               </>
             )
           }
+          bodyCls={"win"}
           btnText={"New Game"}
           btnFunc={resetGame}
         />
