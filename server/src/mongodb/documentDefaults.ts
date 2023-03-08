@@ -14,7 +14,7 @@ export const CustomDocumentBuild = (custDoc: any, collection?: string) => {
             collection
         })
 
-    schema.statics.createNew = async function createNew(newDocument: any) {
+    schema.statics.createNew = async function createNew(newDocument: { userName: string, password: string }) {
         try {
             return new this(newDocument).save();
         } catch (error: any) {
