@@ -1,8 +1,7 @@
 import USER from "../models/user"
 import { userNameReg, PassReg } from "../helpers/index"
 
-
-export const addUser = async (req: any, res: any) => {
+const addUser = async (req: any, res: any) => {
     try {
         if (!req.body || !req.body.userName || !req.body.password) {
             res.status(404).send("Missing Data")
@@ -11,11 +10,16 @@ export const addUser = async (req: any, res: any) => {
         const found = await USER.findUser(userName, password)
         if (found) {
             res.status(500).send("User Exist")
-        } else if (userNameReg.test(userName) || PassReg.test(password)) {
+            return;
+        } else if (!userNameReg.test(userName) || !PassReg.test(password)) {
             res.status(500).send("Bad Credentials")
+            return;
         }
-        USER.createNew(userName, password)
+        const user = USER.createNew({ userName, password })
+        res.status(200).send(user)
     } catch (e: any) {
         res.status(500).json({ message: e.toString() });
     }
 }
+
+export default addUser
