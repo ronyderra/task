@@ -5,6 +5,7 @@ import RegistrationForm from "../components/RegistrationForm";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoggedIn, setRegistered, setUserName } from "../store/reducer/user";
 import { userNameReg, PassReg } from "../helpers/regex";
+import Api from "../helpers/api";
 
 function Login() {
   const dispatch = useDispatch();

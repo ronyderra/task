@@ -1,11 +1,9 @@
-import axios from "axios";
+import axios from "axios"
 import { axiosInstance } from "./axios";
 
 class Api {
-  base = "";
-
-  constructor(base) {
-    this.base = base;
+  constructor() {
+    this.base = "http://localhost:3030";
   }
 
   async findUser(userName) {
@@ -62,4 +60,4 @@ class Api {
   }
 }
 
-export default base => new Api(base);
+export default new Api();
