@@ -8,7 +8,6 @@ config();
 
 const port = process.env.PORT || 3030;
 const URL: string = process.env.DB_URL || "";
-
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded());
@@ -21,9 +20,7 @@ app.use(express.urlencoded());
 // ];
 
 app.use(cors());
-
 app.use("/", router);
-
 const server = http.createServer(app);
 
 export default server.listen(port, () => {
@@ -32,9 +29,10 @@ export default server.listen(port, () => {
 
 const options: any = { useNewUrlParser: true, useUnifiedTopology: true };
 mongoose.set('strictQuery', true);
-mongoose.connect(URL, options);
+mongoose.connect(URL, options)
 const connection = mongoose.connection;
 connection.on("error", (err) => console.error("connection error: ", err));
 connection.once("open", () => {
     console.log("connected to: ", connection.name)
+    connection.db.collection('users').createIndex({ wins: -1 });
 });

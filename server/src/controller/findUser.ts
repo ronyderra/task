@@ -1,5 +1,4 @@
 import USER from "../models/user"
-
 const findUser = async (req: any, res: any) => {
     try {
         if (!req.query || !req.query.userName) {

@@ -1,6 +1,5 @@
 import USER from "../models/user"
 import { userNameReg, PassReg } from "../helpers/index"
-
 const addUser = async (req: any, res: any) => {
     try {
         if (!req.body || !req.body.userName || !req.body.password) {
@@ -21,5 +20,4 @@ const addUser = async (req: any, res: any) => {
         res.status(500).json({ message: e.toString() });
     }
 }
-
 export default addUser

@@ -1,4 +1,4 @@
-import { Document, model, Schema } from 'mongoose'
+import { Schema } from 'mongoose'
 import { ObjectId } from 'mongodb'
 
 export const CustomDocumentBuild = (custDoc: any, collection?: string) => {
@@ -13,7 +13,6 @@ export const CustomDocumentBuild = (custDoc: any, collection?: string) => {
             collation: { locale: 'he', strength: 1 },
             collection
         })
-
     schema.statics.createNew = async function createNew(newDocument: { userName: string, password: string }) {
         try {
             return new this(newDocument).save();
@@ -22,7 +21,6 @@ export const CustomDocumentBuild = (custDoc: any, collection?: string) => {
             return undefined;
         }
     }
-
     schema.statics.getById = async function getById(_id: ObjectId) {
         try {
             const query = this.findOne({ _id });
@@ -32,7 +30,6 @@ export const CustomDocumentBuild = (custDoc: any, collection?: string) => {
             return undefined;
         }
     }
-
     schema.statics.removeById = async function removeById(_id: ObjectId) {
         return new Promise(async (res, rej) => {
             const query = this.findOneAndRemove({ _id })
@@ -42,7 +39,6 @@ export const CustomDocumentBuild = (custDoc: any, collection?: string) => {
             })
         })
     }
-
     schema.statics.updateById = async function updateById(_id: ObjectId, updatedDocument: any) {
         return new Promise((res, rej) => {
             const query = this.findByIdAndUpdate({ _id }, updatedDocument, { new: true })
