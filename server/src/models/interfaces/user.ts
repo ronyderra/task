@@ -2,6 +2,7 @@ import { Document, Model } from "mongoose";
 export interface IUSER {
     userName: string;
     password: string;
+    inLobby: boolean;
     wins: number
 }
 export interface IBOARD {
@@ -16,4 +17,5 @@ export interface IUSERModel extends Model<IUSERDocument> {
     findUser(userName: string): Promise<IUSER>;
     leaderBoard(): Promise<IBOARD[]>;
     addWin(userName: string): Promise<IUSER>;
+    getActive(userNames: string[] | []): Promise<IUSER>;
 }
