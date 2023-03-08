@@ -12,11 +12,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded());
 
+//TODO- secure routes
 // var whitelist = [
 //     "http://localhost",
 //     "127.0.0.1",
-//     "https://widget-staging.xp.network",
-//     "https://widget.xp.network",
 // ];
 
 app.use(cors());

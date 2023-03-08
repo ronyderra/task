@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/addUser", addUser);
 router.get("/findUser", findUser);
 router.get("/leaderBoard", leaderBoard);
-router.get("/getActive", getActive);
+router.post("/getActive", getActive);
 router.patch("/addWin", addWin);
 
 export default router;
