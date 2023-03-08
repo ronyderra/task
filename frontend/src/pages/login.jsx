@@ -28,12 +28,16 @@ function Login() {
     }
   };
 
-  const handleNewUser = () => {
+  const handleNewUser = async () => {
     if (userNameReg.test(userName) && PassReg.test(password) && password === repeate) {
-      dispatch(setRegistered(true));
-      dispatch(setLoggedIn(true));
-      dispatch(setUserName(userName));
-      navigate("/lobby");
+      const resp = await Api.addUser(userName, password);
+      console.log({ handleNewUser: resp });
+      if (resp) {
+        dispatch(setRegistered(true));
+        dispatch(setLoggedIn(true));
+        dispatch(setUserName(userName));
+        navigate("/lobby");
+      }
     } else {
       alert("make sure user name is only letters and password only numbers");
     }

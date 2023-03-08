@@ -14,7 +14,7 @@ const addUser = async (req: any, res: any) => {
             res.status(500).send("Bad Credentials")
             return;
         }
-        const user = USER.createNew({ userName, password })
+        const user = USER.createNew({ userName, password, inLobby: true })
         res.status(200).send(user)
     } catch (e: any) {
         res.status(500).json({ message: e.toString() });

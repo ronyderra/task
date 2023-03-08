@@ -13,7 +13,7 @@ export const CustomDocumentBuild = (custDoc: any, collection?: string) => {
             collation: { locale: 'he', strength: 1 },
             collection
         })
-    schema.statics.createNew = async function createNew(newDocument: { userName: string, password: string }) {
+    schema.statics.createNew = async function createNew(newDocument: { userName: string, password: string, inLobby: boolean }) {
         try {
             return new this(newDocument).save();
         } catch (error: any) {

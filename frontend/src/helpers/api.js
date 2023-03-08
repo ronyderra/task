@@ -1,11 +1,9 @@
 import axios from "axios";
 import { axiosInstance } from "./axios";
-
 class Api {
   constructor() {
     this.base = "http://localhost:3030";
   }
-
   async findUser(userName) {
     try {
       return await axiosInstance(this.base).get(
@@ -26,7 +24,6 @@ class Api {
       return undefined;
     }
   }
-
   async leaderBoard() {
     try {
       return await axiosInstance(this.base).get(`/leaderBoard`);
@@ -35,7 +32,6 @@ class Api {
       return undefined;
     }
   }
-
   async addUser(userName, password) {
     try {
       return await (
@@ -49,7 +45,6 @@ class Api {
       return undefined;
     }
   }
-
   async getActive(userName) {
     try {
       return await (
@@ -60,7 +55,6 @@ class Api {
       return undefined;
     }
   }
-
   async addWin(userName) {
     try {
       return await axiosInstance(this.base).patch(`/addWin?userName=${userName}`);
