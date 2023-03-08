@@ -1,16 +1,22 @@
 import USER from "../models/user"
+import jwt from 'jsonwebtoken';
 const login = async (req: any, res: any) => {
     try {
         if (!req.query || !req.query.userName || !req.query.password) {
             res.status(404).send("Missing Data")
             return;
         }
-        console.log(!req.query || !req.query.userName || !req.query.password);
-
-        console.log(req.query.userName, req.query.password);
-
-        const user = await USER.login(req.query.userName, req.query.password)
-        user ? res.status(200).send(user) : res.status(400).send("Not Found")
+        const { userName, password } = req.query
+        const user = await USER.login(userName, password)
+        if (user) {
+            const user = { userName, password };
+            const secretKey = 'your-secret-key';
+            const token = jwt.sign(user, secretKey, { expiresIn: '24h' });
+            res.cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'strict' })
+            res.status(200).send(user)
+            return;
+        }
+        res.status(400).send("Not Found")
     } catch (e: any) {
         res.status(500).json({ message: e.toString() });
     }
