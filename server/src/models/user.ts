@@ -19,7 +19,7 @@ schema.statics.findUser = async function findUser(userName: string) {
 }
 schema.statics.leaderBoard = async function leaderBoard() {
     try {
-        const query = this.find({}, { userName: 1, wins: 1 }).sort({ wins: -1 }).limit(10)
+        const query = this.find({}, { userName: 1, wins: 1, _id: 0 }).sort({ wins: -1 }).limit(10)
         return query.exec().then((doc: any) => doc);
     } catch (error) {
         console.log(error);
