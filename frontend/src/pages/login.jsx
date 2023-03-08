@@ -3,7 +3,7 @@ import PopUp from "../components/PopUp";
 import LoginForm from "../components/LoginForm";
 import RegistrationForm from "../components/RegistrationForm";
 import { useSelector, useDispatch } from "react-redux";
-import { setLoggedIn, setRegistered } from "../store/reducer/user";
+import { setLoggedIn, setRegistered, setUserName } from "../store/reducer/user";
 import { userNameReg, PassReg } from "../helpers/regex";
 
 function Login() {
@@ -25,6 +25,7 @@ function Login() {
     if (userNameReg.test(userName) && PassReg.test(password) && password === repeate) {
       dispatch(setRegistered(true));
       dispatch(setLoggedIn(true));
+      dispatch(setUserName(userName));
       navigate("/lobby");
     } else {
       alert("make sure user name is only letters and password only numbers");
