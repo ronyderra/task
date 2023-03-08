@@ -1,4 +1,4 @@
-import LobbyBackg from "../components/LobbyBackg";
+import LobbyBackg from "../components/lobby/LobbyBackg";
 import { useState } from "react";
 import PopUp from "../components/PopUp";
 import { useNavigate } from "react-router-dom";

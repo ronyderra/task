@@ -1,4 +1,4 @@
-import "./LoginForm.scss";
+import "./login/LoginForm.scss";
 import { setUserName, setPassword, setRepeate } from "../store/reducer/credentials";
 import { useDispatch } from "react-redux";
 

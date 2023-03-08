@@ -1,6 +1,6 @@
 import { useNavigate, Outlet } from "react-router-dom";
 import PopUp from "../components/PopUp";
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/login/LoginForm";
 import RegistrationForm from "../components/RegistrationForm";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoggedIn, setRegistered, setUserName } from "../store/reducer/user";

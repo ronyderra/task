@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "../components/Button";
-import Square from "../components/Square";
+import Square from "../components/square/Square";
 import PopUp from "../components/PopUp";
 
 function Game() {
