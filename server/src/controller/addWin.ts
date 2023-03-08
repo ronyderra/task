@@ -3,6 +3,7 @@ const addWin = async (req: any, res: any) => {
     try {
         if (!req.body || !req.body.userName) {
             res.status(404).send("Missing Data")
+            return;
         }
         const found = await USER.addWin(req.body.userName)
         res.status(200).send(found)

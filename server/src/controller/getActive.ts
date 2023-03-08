@@ -3,6 +3,7 @@ const getActive = async (req: any, res: any) => {
     try {
         if (!req.body || !req.body.userNames || !Array.isArray(req.body.userNames)) {
             res.status(404).send("Missing Data")
+            return;
         }
         const user = await USER.getActive(req.body.userNames)
         res.status(200).send(user)

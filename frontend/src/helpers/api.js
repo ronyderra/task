@@ -17,7 +17,9 @@ class Api {
   async login(userName, password) {
     try {
       return await axiosInstance(this.base).get(
-        `/login?userName=${encodeURIComponent(userName)}?password=${encodeURIComponent(password)}`
+        `/login?userName=${encodeURIComponent(userName)}&password=${encodeURIComponent(
+          String(password)
+        )}`
       );
     } catch (e) {
       console.log(e, "in login");
