@@ -13,12 +13,14 @@ function Login() {
   const { userName, password, repeate } = useSelector(state => state.credentials);
 
   const handleLogIn = () => {
-    dispatch(setLoggedIn(true));
-    navigate("/lobby");
-  };
-
-  const handleRegistration = () => {
-    dispatch(setRegistered(false));
+    if (userNameReg.test(userName) && PassReg.test(password)) {
+      dispatch(setRegistered(true));
+      dispatch(setLoggedIn(true));
+      dispatch(setUserName(userName));
+      navigate("/lobby");
+    } else {
+      alert("Go register");
+    }
   };
 
   const handleNewUser = () => {
@@ -41,7 +43,7 @@ function Login() {
           btnText={"Login"}
           btnFunc={() => handleLogIn()}
           secBtnText={"Register"}
-          secBtnFunc={() => handleRegistration()}
+          secBtnFunc={() => dispatch(setRegistered(false))}
         />
       ) : loggedIn && registered ? (
         <></>

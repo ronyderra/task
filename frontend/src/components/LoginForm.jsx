@@ -1,18 +1,17 @@
-import { useState } from "react";
 import "./LoginForm.scss";
+import { setUserName, setPassword } from "../store/reducer/credentials";
+import { useDispatch } from "react-redux";
 
 const LoginForm = () => {
-  const [userName, setUserName] = useState(false);
-  const [password, setPassword] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleChain = (value, input) => {
-    console.log({ userName, password });
+  const handleChange = (value, input) => {
     switch (input) {
       case "userName":
-        setUserName(value);
+        dispatch(setUserName(value));
         break;
       case "password":
-        setPassword(value);
+        dispatch(setPassword(value));
         break;
       default:
         break;
@@ -24,13 +23,13 @@ const LoginForm = () => {
       <input
         className="formInput"
         placeholder="User Name"
-        onChange={e => handleChain(e.target.value, "userName")}
+        onChange={e => handleChange(e.target.value, "userName")}
         type="text"
       />
       <input
         className="formInput"
         placeholder="Password"
-        onChange={e => handleChain(e.target.value, "password")}
+        onChange={e => handleChange(e.target.value, "password")}
         type="password"
       />
     </div>
