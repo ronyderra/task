@@ -17,10 +17,17 @@ export const credentialsSlice = createSlice({
     setRepeate: (state, action) => {
       state.repeate = action.payload;
     },
+    backToInit: (state, action) => {
+      state = {
+        userName: "",
+        password: "",
+        repeate: "",
+      };
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUserName, setPassword, setRepeate } = credentialsSlice.actions;
+export const { setUserName, setPassword, setRepeate, backToInit } = credentialsSlice.actions;
 
 export default credentialsSlice.reducer;

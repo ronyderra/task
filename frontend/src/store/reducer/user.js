@@ -17,10 +17,17 @@ export const userSlice = createSlice({
     setRegistered: (state, action) => {
       state.registered = action.payload;
     },
+    backToIn: (state, action) => {
+      state = {
+        userName: "",
+        loggedIn: false,
+        registered: false,
+      };
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUserName, setLoggedIn, setRegistered } = userSlice.actions;
+export const { setUserName, setLoggedIn, setRegistered, backToIn } = userSlice.actions;
 
 export default userSlice.reducer;
