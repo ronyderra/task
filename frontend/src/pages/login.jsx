@@ -10,7 +10,7 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loggedIn, registered } = useSelector(state => state.user);
-  const { userName, password, repeate } = useSelector(state => state.registration);
+  const { userName, password, repeate } = useSelector(state => state.credentials);
 
   const handleLogIn = () => {
     dispatch(setLoggedIn(true));

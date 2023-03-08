@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./reducer/user";
-import registrationReducer from "./reducer/registration";
+import credentialsReducer from "./reducer/credentials";
 
 export default configureStore({
   reducer: {
     user: userReducer,
-    registration: registrationReducer,
+    credentials: credentialsReducer,
   },
 });

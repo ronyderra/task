@@ -1,5 +1,5 @@
 import "./LoginForm.scss";
-import { setUserName, setPassword, setRepeate } from "../store/reducer/registration";
+import { setUserName, setPassword, setRepeate } from "../store/reducer/credentials";
 import { useDispatch } from "react-redux";
 
 const RegistrationForm = () => {

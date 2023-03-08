@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const registrationSlice = createSlice({
-  name: "registration",
+export const credentialsSlice = createSlice({
+  name: "credentials",
   initialState: {
     userName: "",
     password: "",
@@ -21,6 +21,6 @@ export const registrationSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setUserName, setPassword, setRepeate } = registrationSlice.actions;
+export const { setUserName, setPassword, setRepeate } = credentialsSlice.actions;
 
-export default registrationSlice.reducer;
+export default credentialsSlice.reducer;
