@@ -2,7 +2,7 @@ import express from "express";
 import addUser from "../controller/addUser"
 import findUser from "../controller/findUser"
 import leaderBoard from "../controller/leaderBoard"
-import addWin from "../controller/leaderBoard"
+import addWin from "../controller/addWin"
 
 const router = express.Router();
 router.post("/addUser", addUser);
