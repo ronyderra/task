@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import { config } from "dotenv";
 import router from "./routes/routes"
+import { Server } from "socket.io";
 import http from "http";
 config();
 
@@ -21,6 +22,17 @@ app.use(express.urlencoded());
 app.use(cors());
 app.use("/", router);
 const server = http.createServer(app);
+
+export const clientAppSocket = new Server(server, {
+    cors: {
+        origin: "*",
+    },
+});
+
+clientAppSocket.setMaxListeners(0)
+clientAppSocket.on("connection", (socket) => {
+
+});
 
 export default server.listen(port, () => {
     console.log(`Server runs on port ${port}`);
