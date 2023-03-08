@@ -7,7 +7,7 @@ const addUser = async (req: any, res: any) => {
             res.status(404).send("Missing Data")
         }
         const { userName, password } = req.body
-        const found = await USER.findUser(userName, password)
+        const found = await USER.findUser(userName)
         if (found) {
             res.status(500).send("User Exist")
             return;

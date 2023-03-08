@@ -10,9 +10,9 @@ export const docUSER = {
 
 export const schema = CustomDocumentBuild(docUSER, "Users");
 
-schema.statics.findUser = async function findUser(userName: string, password: string) {
+schema.statics.findUser = async function findUser(userName: string) {
     try {
-        const query = this.findOne({ userName, password });
+        const query = this.findOne({ userName });
         return query.exec().then((doc: any) => doc);
     } catch (error) {
         console.log(error);
