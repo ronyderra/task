@@ -1,3 +1,3 @@
 export const config = {
-  _DEFAULT_DB: "http://localhost:3030",
+  _DEFAULT_SERVER: "http://localhost:3030",
 };
