@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "axios";
 import { axiosInstance } from "./axios";
 
 class Api {
@@ -13,6 +13,16 @@ class Api {
       );
     } catch (e) {
       console.log(e, "in findUser");
+      return undefined;
+    }
+  }
+  async login(userName, password) {
+    try {
+      return await axiosInstance(this.base).get(
+        `/login?userName=${encodeURIComponent(userName)}?password=${encodeURIComponent(password)}`
+      );
+    } catch (e) {
+      console.log(e, "in login");
       return undefined;
     }
   }

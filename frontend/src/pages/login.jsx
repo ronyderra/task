@@ -13,12 +13,16 @@ function Login() {
   const { loggedIn, registered } = useSelector(state => state.user);
   const { userName, password, repeate } = useSelector(state => state.credentials);
 
-  const handleLogIn = () => {
+  const handleLogIn = async () => {
     if (userNameReg.test(userName) && PassReg.test(password)) {
-      dispatch(setRegistered(true));
-      dispatch(setLoggedIn(true));
-      dispatch(setUserName(userName));
-      navigate("/lobby");
+      const resp = await Api.login(userName, password);
+      console.log({ handleLogIn: resp });
+      if (resp) {
+        dispatch(setRegistered(true));
+        dispatch(setLoggedIn(true));
+        dispatch(setUserName(userName));
+        navigate("/lobby");
+      }
     } else {
       alert("Go register");
     }

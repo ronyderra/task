@@ -18,6 +18,15 @@ schema.statics.findUser = async function findUser(userName: string) {
         return undefined;
     }
 }
+schema.statics.login = async function login(userName: string, password: string) {
+    try {
+        const query = this.findOneAndUpdate({ userName, password }, { inLobby: true }, { returnOriginal: false });
+        return query.exec().then((doc: any) => doc);
+    } catch (error) {
+        console.log(error);
+        return undefined;
+    }
+}
 schema.statics.leaderBoard = async function leaderBoard() {
     try {
         const query = this.find({}, { userName: 1, wins: 1, _id: 0 }).sort({ wins: -1 }).limit(10)

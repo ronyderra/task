@@ -15,6 +15,7 @@ export interface IUSERDocument extends IUSER, Document {
 export interface IUSERModel extends Model<IUSERDocument> {
     createNew({ userName, password }: { userName: string, password: string }): Promise<IUSER>;
     findUser(userName: string): Promise<IUSER>;
+    login(userName: string, password: string): Promise<IUSER | undefined>;
     leaderBoard(): Promise<IBOARD[]>;
     addWin(userName: string): Promise<IUSER>;
     getActive(userNames: string[] | []): Promise<IUSER>;
