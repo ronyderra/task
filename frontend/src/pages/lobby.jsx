@@ -2,7 +2,7 @@ import LobbyBackg from "../components/lobby/LobbyBackg";
 import { useEffect, useState } from "react";
 import PopUp from "../components/PopUp";
 import { useNavigate } from "react-router-dom";
-import { socket } from "../helpers/congig";
+import { socket } from "../helpers/config";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setPlayAgainst, setXorO } from "../store/reducer/user";

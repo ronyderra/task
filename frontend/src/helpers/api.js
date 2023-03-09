@@ -1,6 +1,6 @@
 import axios from "axios";
 import { axiosInstance } from "./axios";
-import jwtDecode from "jwt-decode";
+// import jwtDecode from "jwt-decode";
 
 const getJwt = () => {
   console.log("geeg", document.cookie);
@@ -10,7 +10,6 @@ const getJwt = () => {
   }
   return jwt.split("=")[1];
 };
-
 class Api {
   constructor() {
     this.base = "http://localhost:3030";

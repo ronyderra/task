@@ -7,7 +7,7 @@ import Lobby from "./pages/lobby";
 import Login from "./pages/login";
 import Layout from "./Layout";
 import { useEffect } from "react";
-import { socket } from "./helpers/congig";
+import { socket } from "./helpers/config";
 
 function App() {
   let location = useLocation();

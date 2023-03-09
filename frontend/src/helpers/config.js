@@ -1,4 +1,4 @@
-import Socket from "../helpers/socket";
+import Socket from "./socket";
 export const config = {
   _DEFAULT_SERVER: "http://localhost:3030",
   _DEFAULT_SOCKET: "wss://localhost:3030",

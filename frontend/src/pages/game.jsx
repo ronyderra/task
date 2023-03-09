@@ -2,7 +2,7 @@ import { useState } from "react";
 import Square from "../components/square/Square";
 import PopUp from "../components/PopUp";
 import { useSelector, useDispatch } from "react-redux";
-import { socket } from "../helpers/congig";
+import { socket } from "../helpers/config";
 import { useNavigate } from "react-router-dom";
 import { setPlayAgainst } from "../store/reducer/user";
 import Api from "../helpers/api";
