@@ -4,6 +4,7 @@ import findUser from "../controller/findUser"
 import login from "../controller/login"
 import leaderBoard from "../controller/leaderBoard"
 import addWin from "../controller/addWin"
+import checkWinner from "../controller/checkWinner"
 import getActive from "../controller/getActive"
 
 const router = express.Router();
@@ -12,6 +13,7 @@ router.get("/findUser", findUser);
 router.get("/login", login);
 router.get("/leaderBoard", leaderBoard);
 router.post("/getActive", getActive);
+router.post("/checkWinner", checkWinner);
 router.patch("/addWin", addWin);
 
 export default router;

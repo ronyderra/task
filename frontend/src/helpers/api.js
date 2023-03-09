@@ -57,6 +57,16 @@ class Api {
       return undefined;
     }
   }
+  async checkWinner(squares) {
+    try {
+      return await (
+        await axios.post(this.base + `/checkWinner`, { squares })
+      ).data;
+    } catch (e) {
+      console.log(e, " in checkWinner");
+      return undefined;
+    }
+  }
   async addWin(userName) {
     try {
       console.log({ userName });

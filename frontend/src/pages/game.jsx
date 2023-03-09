@@ -22,26 +22,26 @@ function Game() {
     return true;
   };
 
-  const checkWinner = () => {
-    const combos = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
+  // const checkWinner = () => {
+  //   const combos = [
+  //     [0, 1, 2],
+  //     [3, 4, 5],
+  //     [6, 7, 8],
+  //     [0, 3, 6],
+  //     [1, 4, 7],
+  //     [2, 5, 8],
+  //     [0, 4, 8],
+  //     [2, 4, 6],
+  //   ];
 
-    for (let combo of combos) {
-      const [a, b, c] = combo;
-      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
-      }
-    }
-    return null;
-  };
+  //   for (let combo of combos) {
+  //     const [a, b, c] = combo;
+  //     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+  //       return squares[a];
+  //     }
+  //   }
+  //   return null;
+  // };
 
   socket.on(userName, async data => {
     const resp = JSON.parse(data);
@@ -50,10 +50,11 @@ function Game() {
       squares[resp.ind] = resp.xOrO;
       setSquares(squares);
       setTurn(xOrO);
-      const W = checkWinner();
-      if (W) {
-        if (W === xOrO) await Api.addWin(userName);
-        setWinner(W);
+      console.log(await Api.checkWinner(squares));
+      const W = await Api.checkWinner(squares);
+      if (W.result) {
+        if (W.result === xOrO) await Api.addWin(userName);
+        setWinner(W.result);
       } else if (checkEndTheGame()) {
         setWinner("x | o");
       }
@@ -69,11 +70,12 @@ function Game() {
       squares[ind] = turn;
       setSquares(squares);
       setTurn(turn === "x" ? "o" : "x");
-      const W = checkWinner();
-      if (W) {
-        if (W === xOrO) await Api.addWin(userName);
+      console.log(await Api.checkWinner(squares));
+      const W = await Api.checkWinner(squares);
+      if (W.result) {
+        if (W.result === xOrO) await Api.addWin(userName);
         dispatch(setPlayAgainst(""));
-        setWinner(W);
+        setWinner(W.result);
       } else if (checkEndTheGame()) {
         setWinner("x | o");
       }
