@@ -57,12 +57,13 @@ export const socketsHandler = (clientAppSocket: Server<DefaultEventsMap, Default
 export const sendPair = async (clientAppSocket: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
     const inLobbyUsers = await USER.getLobby()
     if (inLobbyUsers.length < 2) return;
-    for (let index = 0; index < inLobbyUsers.length; index += 2) {
-        if (!inLobbyUsers[index + 1]) continue;
-        clientAppSocket.emit(inLobbyUsers[index]?.userName, JSON.stringify({ against: inLobbyUsers[index + 1]?.userName }));
-        clientAppSocket.emit(inLobbyUsers[index + 1]?.userName, JSON.stringify({ against: inLobbyUsers[index]?.userName }));
-        await USER.updateInLoby(inLobbyUsers[index]?.userName, false)
-        await USER.updateInLoby(inLobbyUsers[index + 1]?.userName, false)
+    const randomly = inLobbyUsers.sort((a, b) => 0.5 - Math.random());
+    for (let index = 0; index < randomly.length; index += 2) {
+        if (!randomly[index + 1]) continue;
+        clientAppSocket.emit(randomly[index]?.userName, JSON.stringify({ against: randomly[index + 1]?.userName }));
+        clientAppSocket.emit(randomly[index + 1]?.userName, JSON.stringify({ against: randomly[index]?.userName }));
+        await USER.updateInLoby(randomly[index]?.userName, false)
+        await USER.updateInLoby(randomly[index + 1]?.userName, false)
     }
 }
 
