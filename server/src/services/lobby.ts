@@ -17,40 +17,40 @@ let inLobbyUsers: string[] = [],
 
 export const socketsHandler = (clientAppSocket: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
     clientAppSocket.setMaxListeners(0)
+
     clientAppSocket.on("connection", (socket: any) => {
+
         socket.on("enteredLobby", (userName: string) => {
             if (userName && !inLobbyUsers.includes(userName)) {
                 inLobbyUsers.push(userName)
                 matchUsers()
             }
         });
-        socket.on("exitLobby", (exitLobby: string) => {
+        socket.on("exitLobby", (exitLobby: any) => {
             console.log({ exitLobby });
-            inLobbyUsers = inLobbyUsers.filter(item => item == exitLobby)
-            declinedPairs = declinedPairs.filter(item => item.firstUser == exitLobby || item.secondUser == exitLobby)
+
+            // inLobbyUsers = inLobbyUsers.filter(item => item == exitLobby)
+            // declinedPairs = declinedPairs.filter(item => item.firstUser == exitLobby || item.secondUser == exitLobby)
         });
         socket.on("declinedGame", (data: any) => {
-            const pair = JSON.parse(data)
-            clientAppSocket.emit(pair.against, "declinedGame");
+            const { against } = JSON.parse(data)
+            clientAppSocket.emit(against, "declinedGame");
             declinedPairs.push(JSON.parse(data))
         });
         socket.on("approveGame", (data: any) => {
-            const pair = JSON.parse(data)
-            console.log("approveGame", { pair });
-            if (approvedGames.includes(pair.against)) {
-                clientAppSocket.emit(pair.userName, JSON.stringify({ event: "goPlay", against: pair.against, xOrO: "x" }));
-                clientAppSocket.emit(pair.against, JSON.stringify({ event: "goPlay", against: pair.userName, xOrO: "o" }));
+            const { userName, against } = JSON.parse(data)
+            if (approvedGames.includes(against)) {
+                clientAppSocket.emit(userName, JSON.stringify({ event: "goPlay", against: against, xOrO: "x" }));
+                clientAppSocket.emit(against, JSON.stringify({ event: "goPlay", against: userName, xOrO: "o" }));
             } else {
-                approvedGames.push(pair.userName)
+                approvedGames.push(userName)
             }
         });
         socket.on("disconnect", (transport: any) => {
             console.log({ transport });
-            console.log(inLobbyUsers);
         });
         socket.on("moved", (data: any) => {
-            const { userName, playAgainst, ind, xOrO } = JSON.parse(data)
-            console.log({ userName, playAgainst, ind, xOrO });
+            const { playAgainst, ind, xOrO } = JSON.parse(data)
             clientAppSocket.emit(playAgainst, JSON.stringify({ event: "game", ind, xOrO }));
         });
     });
@@ -71,11 +71,7 @@ const matchUsers = () => {
 }
 
 export const sendPair = (clientAppSocket: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
-    console.log({ inLobbyUsers, declinedPairs });
-    if (inLobbyUsers.length < 2) {
-        console.log("smaller than 2");
-        return;
-    }
+    if (inLobbyUsers.length < 2) return;
     inLobbyUsers.map((user) => {
         let pair = availableMatches.findIndex(i => i.firstUser === user || i.secondUser === user)
         if (pair !== -1) {
