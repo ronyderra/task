@@ -22,27 +22,6 @@ function Game() {
     return true;
   };
 
-  // const checkWinner = () => {
-  //   const combos = [
-  //     [0, 1, 2],
-  //     [3, 4, 5],
-  //     [6, 7, 8],
-  //     [0, 3, 6],
-  //     [1, 4, 7],
-  //     [2, 5, 8],
-  //     [0, 4, 8],
-  //     [2, 4, 6],
-  //   ];
-
-  //   for (let combo of combos) {
-  //     const [a, b, c] = combo;
-  //     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-  //       return squares[a];
-  //     }
-  //   }
-  //   return null;
-  // };
-
   socket.on(userName, async data => {
     const resp = JSON.parse(data);
     console.log(resp);
