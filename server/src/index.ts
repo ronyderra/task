@@ -30,7 +30,7 @@ const clientAppSocket = new Server(server, {
     },
 });
 socketsHandler(clientAppSocket)
-cron.schedule("*/10 * * * * *", () => {
+cron.schedule("*/20 * * * * *", () => {
     sendPair(clientAppSocket)
 });
 

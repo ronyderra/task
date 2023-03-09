@@ -1,5 +1,6 @@
 import { Server } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
+import USER from "../models/user"
 interface DecPair {
     firstUser: string,
     secondUser: string,
@@ -10,38 +11,36 @@ interface Pair {
     secondUser: string,
 }
 
-let inLobbyUsers: string[] = [],
-    declinedPairs: DecPair[] = [],
-    availableMatches: Pair[], //filterd decline
+
+let declinedPairs: DecPair[] = [],
     approvedGames: string[] = []
 
 export const socketsHandler = (clientAppSocket: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
     clientAppSocket.setMaxListeners(0)
-
     clientAppSocket.on("connection", (socket: any) => {
-
-        socket.on("enteredLobby", (userName: string) => {
-            if (userName && !inLobbyUsers.includes(userName)) {
-                inLobbyUsers.push(userName)
-                matchUsers()
-            }
+        socket.on("enteredLobby", async (userName: string) => {
+            await USER.updateInLoby(userName, true)
         });
-        socket.on("exitLobby", (exitLobby: any) => {
-            console.log({ exitLobby });
-
-            // inLobbyUsers = inLobbyUsers.filter(item => item == exitLobby)
-            // declinedPairs = declinedPairs.filter(item => item.firstUser == exitLobby || item.secondUser == exitLobby)
+        socket.on("exitLobby", async (userName: any) => {
+            await USER.updateInLoby(userName, false)
         });
-        socket.on("declinedGame", (data: any) => {
-            const { against } = JSON.parse(data)
+        socket.on("declinedGame", async (data: any) => {
+            const { against, userName } = JSON.parse(data)
+            await USER.updateInLoby(userName, true)
+            await USER.updateInLoby(against, true)
             clientAppSocket.emit(against, "declinedGame");
-            declinedPairs.push(JSON.parse(data))
+            const d1 = new Date();
+            const result = d1.getTime();
         });
-        socket.on("approveGame", (data: any) => {
+        socket.on("approveGame", async (data: any) => {
             const { userName, against } = JSON.parse(data)
             if (approvedGames.includes(against)) {
                 clientAppSocket.emit(userName, JSON.stringify({ event: "goPlay", against: against, xOrO: "x" }));
                 clientAppSocket.emit(against, JSON.stringify({ event: "goPlay", against: userName, xOrO: "o" }));
+                await USER.updateInLoby(userName, false)
+                await USER.updateInLoby(against, false)
+                declinedPairs.filter(item => item.firstUser !== userName || item.secondUser !== userName || item.firstUser !== against || item.secondUser !== against)
+                approvedGames.filter(item => item !== userName || item !== against)
             } else {
                 approvedGames.push(userName)
             }
@@ -56,39 +55,15 @@ export const socketsHandler = (clientAppSocket: Server<DefaultEventsMap, Default
     });
 }
 
-//matches filterd decline
-const matchUsers = () => {
-    availableMatches = inLobbyUsers.flatMap((user, i) =>
-        inLobbyUsers.slice(i + 1).map(secondUser =>
-            ({ firstUser: user, secondUser })
-        )
-    ).filter(pair =>
-        !declinedPairs.some(declinedPair =>
-            (declinedPair.firstUser === pair.firstUser && declinedPair.secondUser === pair.secondUser) ||
-            (declinedPair.firstUser === pair.secondUser && declinedPair.secondUser === pair.firstUser)
-        )
-    );
-}
-
-export const sendPair = (clientAppSocket: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
+export const sendPair = async (clientAppSocket: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
+    const inLobbyUsers = await USER.getLobby()
     if (inLobbyUsers.length < 2) return;
-    inLobbyUsers.map((user) => {
-        let pair = availableMatches.findIndex(i => i.firstUser === user || i.secondUser === user)
-        if (pair !== -1) {
-            const { firstUser, secondUser } = availableMatches[pair]
-            console.log({ firstUser, secondUser });
-            clientAppSocket.emit(firstUser, JSON.stringify({ firstUser, against: secondUser }));
-            clientAppSocket.emit(secondUser, JSON.stringify({ secondUser, against: firstUser }));
-            // availableMatches.splice(pair, 1);
-        } else {
-            const d1 = new Date();
-            const result = d1.getTime();
-            const declinedPairIndex = declinedPairs.findIndex(i => (i.firstUser === user || i.secondUser === user) && result >= i.decliendTime + 10)
-            if (declinedPairIndex !== -1) {
-                const { firstUser, secondUser } = declinedPairs[declinedPairIndex]
-                clientAppSocket.to("lobby").emit(JSON.stringify({ firstUser, secondUser }));
-            }
-        }
-    })
+    for (let index = 0; index < inLobbyUsers.length; index += 2) {
+        if (!inLobbyUsers[index + 1]) continue;
+        clientAppSocket.emit(inLobbyUsers[index]?.userName, JSON.stringify({ against: inLobbyUsers[index + 1]?.userName }));
+        clientAppSocket.emit(inLobbyUsers[index + 1]?.userName, JSON.stringify({ against: inLobbyUsers[index]?.userName }));
+        await USER.updateInLoby(inLobbyUsers[index]?.userName, false)
+        await USER.updateInLoby(inLobbyUsers[index + 1]?.userName, false)
+    }
 }
 

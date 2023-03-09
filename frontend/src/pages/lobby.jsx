@@ -29,9 +29,11 @@ function Lobby() {
         console.log("game apprroved by " + parsed.against);
         dispatch(setPlayAgainst(parsed.against));
         dispatch(setXorO(parsed.xOrO));
+        socket.emit("exitLobby", userName);
         navigate("/game");
         break;
       default:
+        if (match) break;
         parsed = JSON.parse(data);
         setAgainst(parsed.against);
         setMatch(true);

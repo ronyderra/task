@@ -18,9 +18,27 @@ schema.statics.findUser = async function findUser(userName: string) {
         return undefined;
     }
 }
+schema.statics.getLobby = async function getLobby() {
+    try {
+        const query = this.find({ inLobby: true });
+        return query.exec().then((doc: any) => doc);
+    } catch (error) {
+        console.log(error);
+        return undefined;
+    }
+}
 schema.statics.login = async function login(userName: string, password: string) {
     try {
         const query = this.findOneAndUpdate({ userName, password }, { inLobby: true }, { returnOriginal: false });
+        return query.exec().then((doc: any) => doc);
+    } catch (error) {
+        console.log(error);
+        return undefined;
+    }
+}
+schema.statics.updateInLoby = async function updateInLoby(userName: string, val: boolean) {
+    try {
+        const query = this.findOneAndUpdate({ userName }, { inLobby: val }, { returnOriginal: false });
         return query.exec().then((doc: any) => doc);
     } catch (error) {
         console.log(error);
