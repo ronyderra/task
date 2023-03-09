@@ -20,9 +20,15 @@ function Lobby() {
   }, []);
 
   socket.on(userName, data => {
-    switch (data) {
-      case "declinedGame":
+    const resp = JSON.parse(data);
+    console.log(resp);
+    switch (true) {
+      case data === "declinedGame":
         setMatch(false);
+        break;
+      case resp?.event === "goPlay":
+        console.log("game apprroved by " + resp.against);
+        navigate("/game")
         break;
       default:
         const p = JSON.parse(data);
@@ -39,8 +45,7 @@ function Lobby() {
 
   const handleApprove = () => {
     setMatch(false);
-    socket.emit("approveGame", JSON.stringify({ against, userName }));
-    navigate("/game");
+    socket.emit("approveGame", JSON.stringify({ userName, against }));
   };
 
   return match ? (

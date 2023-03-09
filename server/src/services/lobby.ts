@@ -13,7 +13,8 @@ interface Pair {
 
 let inLobbyUsers: string[] = [],
     declinedPairs: DecPair[] = [],
-    availableMatches: Pair[] //filterd decline
+    availableMatches: Pair[], //filterd decline
+    approvedGames: string[] = []
 
 // let inLobbyUsers: string[] = ["Boaz", "Uri", "Rony", "Alex", "Mami", "Yura"],
 //     declinedPairs: DecPair[] = [{
@@ -29,11 +30,8 @@ let inLobbyUsers: string[] = [],
 
 export const socketsHandler = (clientAppSocket: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
     clientAppSocket.setMaxListeners(0)
-
     clientAppSocket.on("connection", (socket: any) => {
         socket.on("enteredLobby", (userName: string) => {
-            //push to inlobby
-            //execute matchUsers
             if (userName && !inLobbyUsers.includes(userName)) {
                 inLobbyUsers.push(userName)
                 matchUsers()
@@ -42,7 +40,6 @@ export const socketsHandler = (clientAppSocket: Server<DefaultEventsMap, Default
         });
         socket.on("exitLobby", (exitLobby: string) => {
             console.log({ exitLobby });
-            //pop from inlobby and declined paires
             inLobbyUsers = inLobbyUsers.filter(item => item == exitLobby)
             declinedPairs = declinedPairs.filter(item => item.firstUser == exitLobby || item.secondUser == exitLobby)
         });
@@ -50,9 +47,17 @@ export const socketsHandler = (clientAppSocket: Server<DefaultEventsMap, Default
             console.log("declinedGame", JSON.parse(data));
             const against = JSON.parse(data).against
             clientAppSocket.emit(against, "declinedGame");
-            //push to declined paires
             declinedPairs.push(JSON.parse(data))
-            sendPair(clientAppSocket)
+        });
+        socket.on("approveGame", (data: any) => {
+            const pair = JSON.parse(data)
+            console.log("approveGame", { pair });
+            if (approvedGames.includes(pair.against)) {
+                clientAppSocket.emit(pair.userName, JSON.stringify({ event: "goPlay", against: pair.against }));
+                clientAppSocket.emit(pair.against, JSON.stringify({ event: "goPlay", against: pair.userName }));
+            } else {
+                approvedGames.push(pair.userName)
+            }
         });
         socket.on("disconnect", (transport: any) => {
             console.log({ transport });
