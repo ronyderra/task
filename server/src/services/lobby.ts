@@ -11,7 +11,6 @@ interface Pair {
     secondUser: string,
 }
 
-
 let declinedPairs: DecPair[] = [],
     approvedGames: string[] = []
 
