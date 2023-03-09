@@ -12,7 +12,6 @@ function Lobby() {
   const [against, setAgainst] = useState("");
   const { userName } = useSelector(state => state.user);
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   useEffect(() => {
