@@ -4,7 +4,7 @@ import PopUp from "../components/PopUp";
 import { useSelector, useDispatch } from "react-redux";
 import { socket } from "../helpers/congig";
 import { useNavigate } from "react-router-dom";
-import { setPlayAgainst, setXorO } from "../store/reducer/user";
+import { setPlayAgainst } from "../store/reducer/user";
 import Api from "../helpers/api";
 
 function Game() {
@@ -24,40 +24,33 @@ function Game() {
 
   socket.on(userName, async data => {
     const resp = JSON.parse(data);
-    console.log(resp);
     if (resp.event === "game") {
       squares[resp.ind] = resp.xOrO;
       setSquares(squares);
       setTurn(xOrO);
-      console.log(await Api.checkWinner(squares));
-      const W = await Api.checkWinner(squares);
-      if (W.result) {
-        if (W.result === xOrO) await Api.addWin(userName);
-        setWinner(W.result);
-      } else if (checkEndTheGame()) {
-        setWinner("x | o");
-      }
+      await handleRes();
     }
   });
+
+  const handleRes = async () => {
+    const W = await Api.checkWinner(squares);
+    if (W.result) {
+      if (W.result === xOrO) await Api.addWin(userName);
+      dispatch(setPlayAgainst(""));
+      setWinner(W.result);
+    } else if (checkEndTheGame()) {
+      setWinner("x | o");
+    }
+  };
 
   const updateSquares = async ind => {
     if (turn === xOrO) {
       socket.emit("moved", JSON.stringify({ userName, playAgainst, ind, xOrO }));
-      if (squares[ind] || winner) {
-        return;
-      }
+      if (squares[ind] || winner) return;
       squares[ind] = turn;
       setSquares(squares);
       setTurn(turn === "x" ? "o" : "x");
-      console.log(await Api.checkWinner(squares));
-      const W = await Api.checkWinner(squares);
-      if (W.result) {
-        if (W.result === xOrO) await Api.addWin(userName);
-        dispatch(setPlayAgainst(""));
-        setWinner(W.result);
-      } else if (checkEndTheGame()) {
-        setWinner("x | o");
-      }
+      await handleRes();
     }
   };
 
@@ -105,11 +98,4 @@ function Game() {
     </div>
   );
 }
-
 export default Game;
-
-// const resetGame = () => {
-//   setSquares(Array(9).fill(""));
-//   setTurn("x");
-//   setWinner(null);
-// };
