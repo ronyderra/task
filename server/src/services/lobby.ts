@@ -15,18 +15,6 @@ let inLobbyUsers: string[] = [],
     availableMatches: Pair[], //filterd decline
     approvedGames: string[] = []
 
-// let inLobbyUsers: string[] = ["Boaz", "Uri", "Rony", "Alex", "Mami", "Yura"],
-//     declinedPairs: DecPair[] = [{
-//         firstUser: "Boaz",
-//         secondUser: "Alex",
-//         decliendTime: 1678361869272
-//     }, {
-//         firstUser: "Uri",
-//         secondUser: "Yura",
-//         decliendTime: 1678361869272
-//     }],
-//     availableMatches: Pair[] //filterd decline
-
 export const socketsHandler = (clientAppSocket: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) => {
     clientAppSocket.setMaxListeners(0)
     clientAppSocket.on("connection", (socket: any) => {
