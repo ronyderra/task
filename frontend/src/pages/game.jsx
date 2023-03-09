@@ -43,7 +43,7 @@ function Game() {
     return null;
   };
 
-  socket.on(userName, data => {
+  socket.on(userName, async data => {
     const resp = JSON.parse(data);
     console.log(resp);
     if (resp.event === "game") {
@@ -52,6 +52,7 @@ function Game() {
       setTurn(xOrO);
       const W = checkWinner();
       if (W) {
+        if (W === xOrO) await Api.addWin(userName);
         setWinner(W);
       } else if (checkEndTheGame()) {
         setWinner("x | o");
@@ -70,6 +71,7 @@ function Game() {
       setTurn(turn === "x" ? "o" : "x");
       const W = checkWinner();
       if (W) {
+        console.log({ W, xOrO });
         if (W === xOrO) await Api.addWin(userName);
         dispatch(setPlayAgainst(""));
         setWinner(W);

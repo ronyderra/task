@@ -1,6 +1,7 @@
 import USER from "../models/user"
 const addWin = async (req: any, res: any) => {
     try {
+        console.log(req.query);
         if (!req.query || !req.query.userName) {
             res.status(404).send("Missing Data")
             return;
