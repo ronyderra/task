@@ -1,22 +1,35 @@
+import { useEffect, useState } from "react";
+import Api from "../../helpers/api";
 import "./LobyBackg.scss";
 
 const LobbyBackg = () => {
   const names = ["Alice", "Bob", "Charlie"];
+  const [leaders, setLeaders] = useState([]);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    const resp = await Api.leaderBoard();
+    console.log(resp.data);
+    setLeaders(resp.data);
+  };
 
   return (
     <div className="lobby">
       <div className="names left">
-        {names.map(name => (
-          <div key={name} className="name">
-            {name}
+        {leaders.slice(0, 5).map((item, index) => (
+          <div key={index} className="name">
+            {item.userName} , {item.wins}
           </div>
         ))}
       </div>
       <h2 className="title">Lobby</h2>
       <div className="names right">
-        {names.map(name => (
-          <div key={name} className="name">
-            {name}
+        {leaders.slice(5, 10).map((item, index) => (
+          <div key={index} className="name">
+            {item.userName} , {item.wins}
           </div>
         ))}
       </div>

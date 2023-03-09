@@ -34,7 +34,6 @@ export const socketsHandler = (clientAppSocket: Server<DefaultEventsMap, Default
             if (userName && !inLobbyUsers.includes(userName)) {
                 inLobbyUsers.push(userName)
                 matchUsers()
-                sendPair(clientAppSocket)
             }
         });
         socket.on("exitLobby", (exitLobby: string) => {

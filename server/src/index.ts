@@ -30,7 +30,9 @@ const clientAppSocket = new Server(server, {
     },
 });
 socketsHandler(clientAppSocket)
-
+cron.schedule("*/10 * * * * *", () => {
+    sendPair(clientAppSocket)
+});
 
 export default server.listen(port, () => {
     console.log(`Server runs on port ${port}`);
@@ -44,5 +46,4 @@ connection.on("error", (err) => console.error("connection error: ", err));
 connection.once("open", () => {
     console.log("connected to: ", connection.name)
     connection.db.collection('users').createIndex({ wins: -1 });
-    sendPair(clientAppSocket)
 });
