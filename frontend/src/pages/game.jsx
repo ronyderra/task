@@ -3,6 +3,8 @@ import Square from "../components/square/Square";
 import PopUp from "../components/PopUp";
 import { useSelector, useDispatch } from "react-redux";
 import { socket } from "../helpers/congig";
+import { useNavigate } from "react-router-dom";
+import { setPlayAgainst, setXorO } from "../store/reducer/user";
 import Api from "../helpers/api";
 
 function Game() {
@@ -10,6 +12,7 @@ function Game() {
   const [turn, setTurn] = useState("x");
   const [winner, setWinner] = useState(null);
   const { playAgainst, xOrO, userName } = useSelector(state => state.user);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const checkEndTheGame = () => {
@@ -68,11 +71,17 @@ function Game() {
       const W = checkWinner();
       if (W) {
         if (W === xOrO) await Api.addWin(userName);
+        dispatch(setPlayAgainst(""));
         setWinner(W);
       } else if (checkEndTheGame()) {
         setWinner("x | o");
       }
     }
+  };
+
+  const handleTolobby = () => {
+    socket.emit("enteredLobby", userName);
+    navigate("/lobby");
   };
 
   return (
@@ -107,8 +116,8 @@ function Game() {
             )
           }
           bodyCls={"win"}
-          btnText={"New Game"}
-          btnFunc={() => ""}
+          btnText={"To Lobby"}
+          btnFunc={() => handleTolobby()}
         />
       )}
     </div>
