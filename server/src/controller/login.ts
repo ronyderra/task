@@ -10,9 +10,9 @@ const login = async (req: any, res: any) => {
         const user = await USER.login(userName, password)
         if (user) {
             const user = { userName, password };
-            const secretKey = 'your-secret-key';
+            const secretKey = 'secret';
             const token = jwt.sign(user, secretKey, { expiresIn: '24h' });
-            res.cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'strict' })
+            res.cookie('jwt', token, { httpOnly: true, secure: false, sameSite: 'strict' })
             res.status(200).send(user)
             return;
         }

@@ -3,7 +3,6 @@ import Api from "../../helpers/api";
 import "./LobyBackg.scss";
 
 const LobbyBackg = () => {
-  const names = ["Alice", "Bob", "Charlie"];
   const [leaders, setLeaders] = useState([]);
 
   useEffect(() => {

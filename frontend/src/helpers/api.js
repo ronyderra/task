@@ -1,5 +1,16 @@
 import axios from "axios";
 import { axiosInstance } from "./axios";
+import jwtDecode from "jwt-decode";
+
+const getJwt = () => {
+  console.log("geeg", document.cookie);
+  const jwt = document.cookie.split(";").find(cookie => cookie.trim().startsWith("jwt="));
+  if (!jwt) {
+    return null;
+  }
+  return jwt.split("=")[1];
+};
+
 class Api {
   constructor() {
     this.base = "http://localhost:3030";
@@ -59,8 +70,21 @@ class Api {
   }
   async checkWinner(squares) {
     try {
+      const jwt = getJwt();
+      //for production
+      // if (!jwt) {
+      //   throw new Error("No JWT found");
+      // }
       return await (
-        await axios.post(this.base + `/checkWinner`, { squares })
+        await axios.post(
+          this.base + `/checkWinner`,
+          { squares },
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        )
       ).data;
     } catch (e) {
       console.log(e, " in checkWinner");
@@ -69,7 +93,16 @@ class Api {
   }
   async addWin(userName) {
     try {
-      return await axios.patch(this.base + `/addWin?userName=${userName}`);
+      const jwt = getJwt();
+      //for production
+      // if (!jwt) {
+      //   throw new Error("No JWT found");
+      // }
+      return await axios.patch(this.base + `/addWin?userName=${userName}`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
     } catch (e) {
       console.log(e, "in addWin");
     }
