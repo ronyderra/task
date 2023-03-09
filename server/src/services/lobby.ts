@@ -42,9 +42,8 @@ export const socketsHandler = (clientAppSocket: Server<DefaultEventsMap, Default
             declinedPairs = declinedPairs.filter(item => item.firstUser == exitLobby || item.secondUser == exitLobby)
         });
         socket.on("declinedGame", (data: any) => {
-            console.log("declinedGame", JSON.parse(data));
-            const against = JSON.parse(data).against
-            clientAppSocket.emit(against, "declinedGame");
+            const pair = JSON.parse(data)
+            clientAppSocket.emit(pair.against, "declinedGame");
             declinedPairs.push(JSON.parse(data))
         });
         socket.on("approveGame", (data: any) => {

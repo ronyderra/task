@@ -19,21 +19,21 @@ function Lobby() {
   }, []);
 
   socket.on(userName, data => {
-    const resp = JSON.parse(data);
-    console.log(resp);
+    let parsed;
     switch (true) {
       case data === "declinedGame":
         setMatch(false);
         break;
-      case resp?.event === "goPlay":
-        console.log("game apprroved by " + resp.against);
-        dispatch(setPlayAgainst(resp.against));
-        dispatch(setXorO(resp.xOrO));
+      case JSON.parse(data)?.event === "goPlay":
+        parsed = JSON.parse(data);
+        console.log("game apprroved by " + parsed.against);
+        dispatch(setPlayAgainst(parsed.against));
+        dispatch(setXorO(parsed.xOrO));
         navigate("/game");
         break;
       default:
-        const p = JSON.parse(data);
-        setAgainst(p.against);
+        parsed = JSON.parse(data);
+        setAgainst(parsed.against);
         setMatch(true);
         break;
     }
