@@ -71,7 +71,6 @@ function Game() {
       setTurn(turn === "x" ? "o" : "x");
       const W = checkWinner();
       if (W) {
-        console.log({ W, xOrO });
         if (W === xOrO) await Api.addWin(userName);
         dispatch(setPlayAgainst(""));
         setWinner(W);
