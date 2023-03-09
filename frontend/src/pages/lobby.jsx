@@ -28,7 +28,8 @@ function Lobby() {
         break;
       case resp?.event === "goPlay":
         console.log("game apprroved by " + resp.against);
-        navigate("/game")
+        dispatch(setPlayAgainst(resp.against));
+        navigate("/game");
         break;
       default:
         const p = JSON.parse(data);
