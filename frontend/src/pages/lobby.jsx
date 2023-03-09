@@ -26,7 +26,6 @@ function Lobby() {
         break;
       case JSON.parse(data)?.event === "goPlay":
         parsed = JSON.parse(data);
-        console.log("game apprroved by " + parsed.against);
         dispatch(setPlayAgainst(parsed.against));
         dispatch(setXorO(parsed.xOrO));
         socket.emit("exitLobby", userName);

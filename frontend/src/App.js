@@ -20,7 +20,6 @@ function App() {
     navigate("/");
     const handleBeforeUnload = () => {
       localStorage.clear();
-      console.log({userName});
       socket.emit("exitLobby", userName);
     };
     window.addEventListener("beforeunload", handleBeforeUnload);

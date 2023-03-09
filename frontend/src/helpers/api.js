@@ -69,7 +69,6 @@ class Api {
   }
   async addWin(userName) {
     try {
-      console.log({ userName });
       return await axios.patch(this.base + `/addWin?userName=${userName}`);
     } catch (e) {
       console.log(e, "in addWin");

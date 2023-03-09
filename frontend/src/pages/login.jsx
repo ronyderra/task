@@ -18,7 +18,6 @@ function Login() {
   const handleLogIn = async () => {
     if (userNameReg.test(userName) && PassReg.test(password)) {
       const resp = await Api.login(userName, password);
-      console.log(resp);
       if (resp) {
         dispatch(setRegistered(true));
         dispatch(setLoggedIn(true));

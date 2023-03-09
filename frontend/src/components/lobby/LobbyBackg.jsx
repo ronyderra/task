@@ -12,7 +12,6 @@ const LobbyBackg = () => {
 
   const getData = async () => {
     const resp = await Api.leaderBoard();
-    console.log(resp.data);
     setLeaders(resp.data);
   };
 
