@@ -1,5 +1,6 @@
 import axios from "axios";
 import { axiosInstance } from "./axios";
+import { config } from "./config";
 // import jwtDecode from "jwt-decode";
 
 const getJwt = () => {
@@ -12,7 +13,7 @@ const getJwt = () => {
 };
 class Api {
   constructor() {
-    this.base = "http://localhost:3030";
+    this.base = config._DEFAULT_SERVER;
   }
   async findUser(userName) {
     try {
