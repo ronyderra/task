@@ -18,6 +18,12 @@ function Lobby() {
     socket.emit("enteredLobby", userName);
   }, []);
 
+  useEffect(() => {
+    if (!userName) {
+      socket.emit("exitLobby", userName);
+    }
+  }, [userName]);
+
   socket.on(userName, data => {
     let parsed;
     switch (true) {

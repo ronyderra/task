@@ -23,6 +23,7 @@ function Login() {
         dispatch(setLoggedIn(true));
         dispatch(setUserName(userName));
         setForm("");
+        localStorage.setItem("userName", userName);
         navigate("/lobby");
       } else {
         alert("Go register");

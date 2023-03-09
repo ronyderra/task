@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { backToIn } from "./store/reducer/user";
 import { backToInit } from "./store/reducer/credentials";
@@ -8,25 +8,23 @@ import Login from "./pages/login";
 import Layout from "./Layout";
 import { useEffect } from "react";
 import { socket } from "./helpers/congig";
-import { useSelector } from "react-redux";
 
 function App() {
-  const { userName } = useSelector(state => state.user);
+  let location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(backToInit());
     dispatch(backToIn());
     navigate("/");
-    const handleBeforeUnload = () => {
-      localStorage.clear();
-      socket.emit("exitLobby", userName);
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
   }, []);
+
+  useEffect(() => {
+    if (location.pathname === "/" || location.pathname === "/game") {
+      const myValue = localStorage.getItem("userName");
+      socket.emit("exitLobby", myValue);
+    }
+  }, [location]);
 
   return (
     <div className="tic-tac-toe">
