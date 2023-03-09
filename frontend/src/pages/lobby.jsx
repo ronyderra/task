@@ -2,20 +2,54 @@ import LobbyBackg from "../components/lobby/LobbyBackg";
 import { useEffect, useState } from "react";
 import PopUp from "../components/PopUp";
 import { useNavigate } from "react-router-dom";
+import { socket } from "../helpers/congig";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setPlayAgainst } from "../store/reducer/user";
 
 function Lobby() {
   const [match, setMatch] = useState(false);
+  const [against, setAgainst] = useState("");
+  const { userName } = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    socket.emit("enteredLobby", userName);
+  }, []);
+
+  socket.on(userName, data => {
+    switch (data) {
+      case "declinedGame":
+        setMatch(false);
+        break;
+      default:
+        const p = JSON.parse(data);
+        setAgainst(p.against);
+        setMatch(true);
+        break;
+    }
+  });
+
+  const handleDecline = () => {
+    setMatch(false);
+    socket.emit("declinedGame", JSON.stringify({ against, userName }));
+  };
+
+  const handleApprove = () => {
+    setMatch(false);
+    socket.emit("approveGame", JSON.stringify({ against, userName }));
+    navigate("/game");
+  };
 
   return match ? (
     <PopUp
-      title={"Lets PLay"}
+      title={"Play against " + against}
       btnText={"play"}
-      btnFunc={() => navigate("/game")}
+      btnFunc={() => handleApprove()}
       secBtnText={"fuck off"}
-      secBtnFunc={() => setMatch(false)}
+      secBtnFunc={() => handleDecline()}
     />
   ) : (
     <LobbyBackg />

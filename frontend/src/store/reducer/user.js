@@ -6,6 +6,7 @@ export const userSlice = createSlice({
     userName: "",
     loggedIn: false,
     registered: false,
+    playAgainst: "",
   },
   reducers: {
     setUserName: (state, action) => {
@@ -16,6 +17,9 @@ export const userSlice = createSlice({
     },
     setRegistered: (state, action) => {
       state.registered = action.payload;
+    },
+    setPlayAgainst: (state, action) => {
+      state.playAgainst = action.payload;
     },
     backToIn: (state, action) => {
       state = {
@@ -28,6 +32,7 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setUserName, setLoggedIn, setRegistered, backToIn } = userSlice.actions;
+export const { setUserName, setLoggedIn, setRegistered, backToIn, setPlayAgainst } =
+  userSlice.actions;
 
 export default userSlice.reducer;
