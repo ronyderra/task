@@ -1,12 +1,16 @@
 import { useState } from "react";
-import Button from "../components/Button";
 import Square from "../components/square/Square";
 import PopUp from "../components/PopUp";
+import { useSelector, useDispatch } from "react-redux";
+import { socket } from "../helpers/congig";
+import Api from "../helpers/api";
 
 function Game() {
   const [squares, setSquares] = useState(Array(9).fill(""));
   const [turn, setTurn] = useState("x");
   const [winner, setWinner] = useState(null);
+  const { playAgainst, xOrO, userName } = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   const checkEndTheGame = () => {
     for (let square of squares) {
@@ -36,32 +40,43 @@ function Game() {
     return null;
   };
 
-  const updateSquares = ind => {
-    if (squares[ind] || winner) {
-      return;
+  socket.on(userName, data => {
+    const resp = JSON.parse(data);
+    console.log(resp);
+    if (resp.event === "game") {
+      squares[resp.ind] = resp.xOrO;
+      setSquares(squares);
+      setTurn(xOrO);
+      const W = checkWinner();
+      if (W) {
+        setWinner(W);
+      } else if (checkEndTheGame()) {
+        setWinner("x | o");
+      }
     }
-    const s = squares;
-    s[ind] = turn;
-    setSquares(s);
-    setTurn(turn === "x" ? "o" : "x");
-    const W = checkWinner();
-    if (W) {
-      setWinner(W);
-    } else if (checkEndTheGame()) {
-      setWinner("x | o");
-    }
-  };
+  });
 
-  const resetGame = () => {
-    setSquares(Array(9).fill(""));
-    setTurn("x");
-    setWinner(null);
+  const updateSquares = async ind => {
+    if (turn === xOrO) {
+      socket.emit("moved", JSON.stringify({ userName, playAgainst, ind, xOrO }));
+      if (squares[ind] || winner) {
+        return;
+      }
+      squares[ind] = turn;
+      setSquares(squares);
+      setTurn(turn === "x" ? "o" : "x");
+      const W = checkWinner();
+      if (W) {
+        if (W === xOrO) await Api.addWin(userName);
+        setWinner(W);
+      } else if (checkEndTheGame()) {
+        setWinner("x | o");
+      }
+    }
   };
 
   return (
     <div className="tic-tac-toe">
-     
-      <Button resetGame={resetGame} />
       <div className="game">
         {Array.from("012345678").map(ind => (
           <Square key={ind} ind={ind} updateSquares={updateSquares} clsName={squares[ind]} />
@@ -71,9 +86,14 @@ function Game() {
         <Square clsName="x" />
         <Square clsName="o" />
       </div>
+      {turn === xOrO ? (
+        <span className="turnText">"YOR TURN"</span>
+      ) : (
+        <span className="turnText">"Wait..."</span>
+      )}
       {winner && (
         <PopUp
-          title={winner === "x | o" ? "No Winner :/" : "Win !! :)"}
+          title={winner === xOrO ? "You Win!!" : "Try again?"}
           body={
             winner === "x | o" ? (
               <>
@@ -88,7 +108,7 @@ function Game() {
           }
           bodyCls={"win"}
           btnText={"New Game"}
-          btnFunc={resetGame}
+          btnFunc={() => ""}
         />
       )}
     </div>
@@ -96,3 +116,9 @@ function Game() {
 }
 
 export default Game;
+
+// const resetGame = () => {
+//   setSquares(Array(9).fill(""));
+//   setTurn("x");
+//   setWinner(null);
+// };

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { socket } from "../helpers/congig";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { setPlayAgainst } from "../store/reducer/user";
+import { setPlayAgainst, setXorO } from "../store/reducer/user";
 
 function Lobby() {
   const [match, setMatch] = useState(false);
@@ -28,6 +28,7 @@ function Lobby() {
       case resp?.event === "goPlay":
         console.log("game apprroved by " + resp.against);
         dispatch(setPlayAgainst(resp.against));
+        dispatch(setXorO(resp.xOrO));
         navigate("/game");
         break;
       default:

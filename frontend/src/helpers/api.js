@@ -59,7 +59,8 @@ class Api {
   }
   async addWin(userName) {
     try {
-      return await axiosInstance(this.base).patch(`/addWin?userName=${userName}`);
+      console.log({ userName });
+      return await axios.patch(this.base + `/addWin?userName=${userName}`);
     } catch (e) {
       console.log(e, "in addWin");
     }

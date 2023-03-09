@@ -1,6 +1,5 @@
 import { Server } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
-
 interface DecPair {
     firstUser: string,
     secondUser: string,
@@ -53,8 +52,8 @@ export const socketsHandler = (clientAppSocket: Server<DefaultEventsMap, Default
             const pair = JSON.parse(data)
             console.log("approveGame", { pair });
             if (approvedGames.includes(pair.against)) {
-                clientAppSocket.emit(pair.userName, JSON.stringify({ event: "goPlay", against: pair.against }));
-                clientAppSocket.emit(pair.against, JSON.stringify({ event: "goPlay", against: pair.userName }));
+                clientAppSocket.emit(pair.userName, JSON.stringify({ event: "goPlay", against: pair.against, xOrO: "x" }));
+                clientAppSocket.emit(pair.against, JSON.stringify({ event: "goPlay", against: pair.userName, xOrO: "o" }));
             } else {
                 approvedGames.push(pair.userName)
             }
@@ -62,6 +61,11 @@ export const socketsHandler = (clientAppSocket: Server<DefaultEventsMap, Default
         socket.on("disconnect", (transport: any) => {
             console.log({ transport });
             console.log(inLobbyUsers);
+        });
+        socket.on("moved", (data: any) => {
+            const { userName, playAgainst, ind, xOrO } = JSON.parse(data)
+            console.log({ userName, playAgainst, ind, xOrO });
+            clientAppSocket.emit(playAgainst, JSON.stringify({ event: "game", ind, xOrO }));
         });
     });
 }

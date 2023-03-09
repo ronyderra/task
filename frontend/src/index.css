@@ -49,6 +49,11 @@ h1 {
   border-radius: 10px;
 }
 
+.turnText {
+  color: #eee;
+  margin-bottom: 10px;
+}
+
 .turn .square,
 .winner .square {
   width: 70px;
