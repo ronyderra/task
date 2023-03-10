@@ -6,7 +6,7 @@ import leaderBoard from "../controller/leaderBoard"
 import addWin from "../controller/addWin"
 import checkWinner from "../controller/checkWinner"
 import getActive from "../controller/getActive"
-import { verifyJwt } from "../helpers/index"
+// import { verifyJwt } from "../helpers/index"
 
 const router = express.Router();
 router.post("/addUser", addUser);

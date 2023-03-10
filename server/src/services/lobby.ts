@@ -6,10 +6,6 @@ interface DecPair {
     secondUser: string,
     decliendTime: number
 }
-interface Pair {
-    firstUser: string,
-    secondUser: string,
-}
 
 let declinedPairs: DecPair[] = [],
     approvedGames: string[] = []
