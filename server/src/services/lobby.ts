@@ -26,6 +26,11 @@ export const socketsHandler = (clientAppSocket: Server<DefaultEventsMap, Default
             clientAppSocket.emit(against, "declinedGame");
             const d1 = new Date();
             const result = d1.getTime();
+            declinedPairs.push({
+                firstUser: userName,
+                secondUser: against,
+                decliendTime: result
+            })
         });
         socket.on("approveGame", async (data: any) => {
             const { userName, against } = JSON.parse(data)
