@@ -4,15 +4,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
-In the project directory got to frontend, you can run:
-### `yarn`
-and then
-### `yarn start`
-
 In the project directory got to backend, you can run:
 ### `yarn`
 and then
 ### `yarn dev`
+
+Runs the app in the development mode.\
+Open [http://localhost:3030]
+
+In the project directory got to frontend, you can run:
+### `yarn`
+and then
+### `yarn start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
