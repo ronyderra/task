@@ -4,7 +4,7 @@ import LoginForm from "../components/login/LoginForm";
 import RegistrationForm from "../components/RegistrationForm";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoggedIn, setRegistered, setUserName } from "../store/reducer/user";
-import { userNameReg, PassReg } from "../helpers/regex";
+import { userNameReg, PassReg, regexFail } from "../helpers/regex";
 import Api from "../helpers/api";
 import { useState } from "react";
 
@@ -42,10 +42,10 @@ function Login() {
         dispatch(setUserName(userName));
         navigate("/lobby");
       } else {
-        alert("make sure user name is only letters and password only numbers");
+        alert(regexFail);
       }
     } else {
-      alert("make sure user name is only letters and password only numbers");
+      alert(regexFail);
     }
   };
 
